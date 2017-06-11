@@ -1,0 +1,56 @@
+Kindergarden scenarios
+
+0a. Hi
+0b. What can you do? (onboarding)
+1. Child is late
+2. Child is sick or OOO (1 or a few days)
+3. Child food menu changed for today
+4. Forgot to check in/out the kid
+5. I will be late to pick up the child (before 6pm and after 6pm)
+6. enrollment form to get into the whitelist via bot 
+
+1. 
+L: Hello, Michael will be late today
+B: Do you know around when he will be in the day care today?
+L: I think around 10:00
+B: Sorry for asking, but was is the reason for him to be late (we need for the reporting)
+L: We had a doctor's appointment for him
+B: Thank you and all the best
+2.
+L: Hello, Michael won't be able to come today/till Friday/4 days
+B: Thank you for letting us know, could you please let us know the reason?
+L: We are going for a ski trip
+B: Thank you and all the best
+3.
+L: Hello
+B: Hello, how are you?
+L: Good, thanks. I've some update for you about Michael food requirements for today.
+B: What is it?
+L: We went to a doctor today and we were advised that he shouldn't eat dairy today
+B: Got it. I will make sure our personal knows.
+4.
+L: I forgot to check in Michael
+B: No problems, I am here to help you. When did you leave him?
+L: I dropped him around 7:40am
+B: Got it. Thanks.
+5. 
+L: Hi, I will be late to pick Michael
+B: Just as a reminder, if you arrive after 4pm and until 6pm, you will be charged 25$ of after-day-care fee. Every MINUTE after 6pm is charged at 5$ per minuter, sorry for this. When do you think you will pick Michael?
+L: I think I should be able to pick him up before 6pm.
+B: Good, thanks and see you.
+6. 
+L: Hello, I'd like to enrol into you day care
+B: I can enrol you right here, but I need to ask you a few questions. Is is OK?
+L: Sure
+B: What is your name?
+B: What is your email?
+B: Please let me know the full name of your child
+L: Don Giovanni
+B: What is the gender?
+L: a boy
+B: When is his birthday?
+L: 15/08/2013
+B: When do you want to start?
+B: Which days would you like to attend?
+B: Looks like I have everything I need. I will contact you right here or via email if we have further questions or news.
+L: np

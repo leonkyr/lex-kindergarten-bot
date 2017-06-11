@@ -1,0 +1,28 @@
+{
+  "name": "lex-kindergarten-bot",
+  "version": "1.0.0",
+  "description": "Kindergarten ChatBot using Amazon LEX",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/*.tests.js --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonkyr/lex-kindergarten-bot.git"
+  },
+  "keywords": [
+    "amazon",
+    "lex",
+    "bot",
+    "chatbot",
+    "day",
+    "care",
+    "kindergarten"
+  ],
+  "author": "leonkyr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonkyr/lex-kindergarten-bot/issues"
+  },
+  "homepage": "https://github.com/leonkyr/lex-kindergarten-bot#readme"
+}
