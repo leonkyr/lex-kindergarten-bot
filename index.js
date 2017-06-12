@@ -1,4 +1,6 @@
 'use strict';
+
+// const KindergartenAPI = require('./kindergarten-api');
 // --------------- Helpers to build responses which match the structure of the necessary dialog actions -----------------------
 
 function elicitSlot(sessionAttributes, intentName, slots, slotToElicit, message, responseCard) {
@@ -60,6 +62,22 @@ function buildMessage(messageContent) {
 	};
 }
 
+function allSlotsAreEmpty(slots) {
+	for (const name in slots) {
+        if (slots[name] !== null && slots[name] != "")
+            return false;
+    }
+    return true;
+}
+
+function allSlotsAreNoneEmpty(slots) {
+	for (const name in slots) {
+        if (slots[name] === null || slots[name] === '')
+            return false;
+    }
+    return true;
+}
+
 // --------------- Functions that control the skill's behavior -----------------------
 
 function kindergartenHi(intentRequest, callback) {
@@ -71,13 +89,80 @@ function kindergartenHi(intentRequest, callback) {
 	));
 }
 
+function kindergartenOnboarding(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage(`You can check in/out your kid, enrol into a waiting list, report absence/late drop off or pick up, dietary changes etc`)
+	));
+}
+
 function kindergartenChildIsLate(intentRequest, callback) {
 	const outputSessionAttributes = intentRequest.sessionAttributes;
 	const source = intentRequest.invocationSource;
 	const slots = intentRequest.currentIntent.slots;
 
+	// call KindergartenAPI
+
 	callback(close(outputSessionAttributes, 'Fulfilled', 
 		buildMessage( `Thank you for updating us about ${slots.name}. We wait for you around ${slots.expectedTimeOfArrival}` )
+	));
+}
+
+function kindergartenAbsence(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+	const slots = intentRequest.currentIntent.slots;
+
+	// call KindergartenAPI
+
+	let absence = `from ${slots.startDay} till ${slots.endDay}`;
+	if (slots.startDay === slots.endDay) { // cover cases: today/tomorrow
+		absence = `for slots.startDay`;
+	}
+
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `Thank you for updating us about ${slots.name}. I marked down the absence ${absence}` )
+	));
+}
+
+function kindergartenEnrolment(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+	const slots = intentRequest.currentIntent.slots;
+	
+	console.log('SLOTS: ');
+	console.log(JSON.stringify(slots, null, 2));
+	
+	if (intentRequest.invocationSource === 'DialogCodeHook' && allSlotsAreEmpty(slots)) {
+		if (intentRequest.currentIntent.confirmationStatus === 'Confirmed') {
+			// this is our confirmation to ask some questions
+			callback(delegate(outputSessionAttributes, slots));
+			return;
+		}
+
+		callback(confirmIntent(outputSessionAttributes, 'KindergartenEnrolment', slots, 
+			buildMessage( `I can enrol you right here, but I need to ask you a few questions. Is is OK?` )
+		));
+		return;
+	}
+
+	console.log('2');
+	console.log(allSlotsAreNoneEmpty(slots));
+
+	// we need all slots to continue
+	if (!allSlotsAreNoneEmpty(slots)) {
+		callback(delegate(outputSessionAttributes, slots));
+		return;
+	}
+
+	console.log('3');
+
+	// call KindergartenAPI
+
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `Looks like I have everything I need. I will contact you right here or via email if we have further questions or news. Thank you for enroling ${slots.parentName}` )
 	));
 }
 
@@ -95,9 +180,15 @@ function dispatch(intentRequest, callback) {
 	// dispatch to the intent handlers
 	if (name.startsWith('KindergartenHi')) {
 		return kindergartenHi(intentRequest, callback);
+	} else if (name.startsWith('KindergartenOnboarding')) {
+		return kindergartenOnboarding(intentRequest, callback);
 	} else if (name.startsWith('KindergartenChildIsLate')) {
 		return kindergartenChildIsLate(intentRequest, callback);
-	} 
+	} else if (name.startsWith('KindergartenAbsence')) {
+		return kindergartenAbsence(intentRequest, callback);
+	} else if (name.startsWith('KindergartenEnrolment')) {
+		return kindergartenEnrolment(intentRequest, callback);
+	}
 	throw new Error(`Intent with name ${name} not supported`);
 }
 

@@ -7,7 +7,8 @@ Kindergarden scenarios
 3. Child food menu changed for today
 4. Forgot to check in/out the kid
 5. I will be late to pick up the child (before 6pm and after 6pm)
-6. enrollment form to get into the whitelist via bot 
+6. enrolment form to get into the whitelist via bot 
+7. Thank you
 
 1. 
 L: Hello, Michael will be late today
