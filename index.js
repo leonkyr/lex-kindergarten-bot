@@ -166,7 +166,7 @@ function kindergartenFood(intentRequest, callback) {
 	// call KindergartenAPI
 
 	callback(close(outputSessionAttributes, 'Fulfilled', 
-		buildMessage( `Looks like I have everything I need. I will contact you right here or via email if we have further questions or news. Thank you for enroling ${slots.parentName}` )
+		buildMessage( `Got it. I will make sure our personal knows.` )
 	));
 }
 
