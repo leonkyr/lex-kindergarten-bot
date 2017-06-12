@@ -25,7 +25,7 @@ B: Thank you and all the best
 3.
 L: Hello
 B: Hello, how are you?
-L: Good, thanks. I've some update for you about Michael food requirements for today.
+L: Good, thanks. I've some updates for you about Michael's food requirements for today.
 B: What is it?
 L: We went to a doctor today and we were advised that he shouldn't eat dairy today
 B: Got it. I will make sure our personal knows.
@@ -36,7 +36,7 @@ L: I dropped him around 7:40am
 B: Got it. Thanks.
 5. 
 L: Hi, I will be late to pick Michael
-B: Just as a reminder, if you arrive after 4pm and until 6pm, you will be charged 25$ of after-day-care fee. Every MINUTE after 6pm is charged at 5$ per minuter, sorry for this. When do you think you will pick Michael?
+B: Just as a reminder, if you arrive after 4pm and until 6pm, you will be charged 25$ as after day care fee. Every MINUTE after 6pm is charged at 5$ per minuter, sorry for this. Do you understand?
 L: I think I should be able to pick him up before 6pm.
 B: Good, thanks and see you.
 6. 

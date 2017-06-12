@@ -132,9 +132,6 @@ function kindergartenEnrolment(intentRequest, callback) {
 	const source = intentRequest.invocationSource;
 	const slots = intentRequest.currentIntent.slots;
 	
-	console.log('SLOTS: ');
-	console.log(JSON.stringify(slots, null, 2));
-	
 	if (intentRequest.invocationSource === 'DialogCodeHook' && allSlotsAreEmpty(slots)) {
 		if (intentRequest.currentIntent.confirmationStatus === 'Confirmed') {
 			// this is our confirmation to ask some questions
@@ -143,13 +140,10 @@ function kindergartenEnrolment(intentRequest, callback) {
 		}
 
 		callback(confirmIntent(outputSessionAttributes, 'KindergartenEnrolment', slots, 
-			buildMessage( `I can enrol you right here, but I need to ask you a few questions. Is is OK?` )
+			buildMessage( `I can enrol you right here, but I need to ask you a few questions. Is it OK?` )
 		));
 		return;
 	}
-
-	console.log('2');
-	console.log(allSlotsAreNoneEmpty(slots));
 
 	// we need all slots to continue
 	if (!allSlotsAreNoneEmpty(slots)) {
@@ -157,12 +151,73 @@ function kindergartenEnrolment(intentRequest, callback) {
 		return;
 	}
 
-	console.log('3');
+	// call KindergartenAPI
 
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `Looks like I have everything I need. ${slots.parentName}, I will contact you right here or via email if we have further questions or news.` )
+	));
+}
+
+function kindergartenFood(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+	const slots = intentRequest.currentIntent.slots;
+	
 	// call KindergartenAPI
 
 	callback(close(outputSessionAttributes, 'Fulfilled', 
 		buildMessage( `Looks like I have everything I need. I will contact you right here or via email if we have further questions or news. Thank you for enroling ${slots.parentName}` )
+	));
+}
+
+function kindergartenCheckInOut(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+	const slots = intentRequest.currentIntent.slots;
+	
+	// call KindergartenAPI
+
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `Got it. Thanks.` )
+	));
+}
+
+function kindergartenLatePickup(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	const source = intentRequest.invocationSource;
+	const slots = intentRequest.currentIntent.slots;
+	
+	if (intentRequest.invocationSource === 'DialogCodeHook' && allSlotsAreEmpty(slots)) {
+		if (intentRequest.currentIntent.confirmationStatus === 'Confirmed') {
+			// this is our confirmation to ask some questions
+			callback(delegate(outputSessionAttributes, slots));
+			return;
+		}
+
+		callback(confirmIntent(outputSessionAttributes, 'KindergartenLatePickup', slots, 
+			buildMessage( `Just as a reminder, if you arrive after 4pm and until 6pm, you will be charged 25$ as after day care fee. Every MINUTE after 6pm is charged at 5$ per minuter, sorry for this. Do you understand?` )
+		));
+		return;
+	}
+
+	// we need all slots to continue
+	if (!allSlotsAreNoneEmpty(slots)) {
+		callback(delegate(outputSessionAttributes, slots));
+		return;
+	}
+
+	// call KindergartenAPI
+
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `Got it. I will make sure our personal knows about ${slots.name}'s requirements for ${slots.date}. All the best` )
+	));
+}
+
+function kindergartenThankYou(intentRequest, callback) {
+	const outputSessionAttributes = intentRequest.sessionAttributes;
+	
+	callback(close(outputSessionAttributes, 'Fulfilled', 
+		buildMessage( `You are welcome` )
 	));
 }
 
@@ -188,6 +243,14 @@ function dispatch(intentRequest, callback) {
 		return kindergartenAbsence(intentRequest, callback);
 	} else if (name.startsWith('KindergartenEnrolment')) {
 		return kindergartenEnrolment(intentRequest, callback);
+	} else if (name.startsWith('KindergartenFood')) {
+		return kindergartenFood(intentRequest, callback);
+	} else if (name.startsWith('KindergartenCheckInOut')) {
+		return kindergartenCheckInOut(intentRequest, callback);
+	} else if (name.startsWith('KindergartenLatePickup')) {
+		return kindergartenLatePickup(intentRequest, callback);
+	} else if (name.startsWith('KindergartenThankYou')) {
+		return kindergartenThankYou(intentRequest, callback);
 	}
 	throw new Error(`Intent with name ${name} not supported`);
 }
